@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<script>
+const offerMap = {
+  'Coinswitch': 'cs',
+  'Nieslen': 'N'
+};
+
+const params = new URLSearchParams(window.location.search);
+const source = params.get('source') || '';
+
+const path = window.location.pathname;
+const parts = path.split('/');
+const cid = parts[parts.length - 1];
+const offer = offerMap[cid];
+
+if (offer) {
+  fetch('/offers/' + offer + '.html')
+    .then(r => r.text())
+    .then(html => {
+      document.open();
+      document.write(html);
+      document.close();
+    });
+} else {
+  document.body.innerHTML = '<h2 style="text-align:center;margin-top:40px;font-family:sans-serif;color:#333;">Offer Temporarily Paused</h2>';
+}
+</script>
+</body>
+</html>
